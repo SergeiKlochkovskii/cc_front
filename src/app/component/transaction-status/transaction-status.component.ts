@@ -1,4 +1,4 @@
-import { TransactionStatusService } from './../../service/transaction-status.service';
+import { TransactionStatusService } from '../../service/transaction.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { TransactionStatusRequest, TransactionStatusResponse } from 'src/app/service/transaction-interface';
@@ -39,7 +39,7 @@ export class TransactionStatusComponent implements OnInit {
     const tsRequest: TransactionStatusRequest = {
       reference: this.transactionStatusForm.get('reference').value,
       channel: this.transactionStatusForm.get('channel').value,
-      date: this.transactionStatusForm.get('transactionDate').value
+      requestedDate: this.transactionStatusForm.get('transactionDate').value
     };
 
     this.transStatus.getTransStatus(tsRequest).subscribe(
@@ -51,9 +51,9 @@ export class TransactionStatusComponent implements OnInit {
         this.statusChanged = true;
       },
       error => {
-        let em = error.message;
-        if (em.indexOf('Http failure') > -1) {
-          em = 'Host is down, please try later';
+        this.message = error.message;
+        if (this.message.indexOf('Http failure') > -1) {
+          this.message = 'Host is down, please try later';
         }
       }
 

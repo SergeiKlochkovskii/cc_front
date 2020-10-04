@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UrlConstService } from './url-const.service';
 import { Injectable } from '@angular/core';
-import { TransactionPayload, TransactionStatusRequest, TransactionStatusResponse } from './transaction-interface';
+import { AccountExt, TransactionPayload, TransactionStatusRequest, TransactionStatusResponse } from './transaction-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,16 +28,25 @@ export class TransactionStatusService {
       { headers, withCredentials: true });
   }
 
-  public getAccountInfo(account: string, order: string): Observable <Array<TransactionPayload>> {
+  public getAccountInfo(account: string, order: string): Observable<Array<TransactionPayload>> {
     const headers = new HttpHeaders()
       .append('X-Requested-With', 'XMLHttpRequest');
 
     return this.http.get<Array<TransactionPayload>>(`${this.urlConst.baseUrl}${this.urlConst.postTransUrl}/${account}`,
-    {
-      headers,
-      withCredentials: true,
-      params: {amount_sort: order}
-    });
+      {
+        headers,
+        withCredentials: true,
+        params: { amount_sort: order }
+      });
+
+  }
+
+  public getAccounts(): Observable<AccountExt[]> {
+    const headers = new HttpHeaders()
+      .append('X-Requested-With', 'XMLHttpRequest');
+
+    return this.http.get<AccountExt[]>(`${this.urlConst.baseUrl}/${this.urlConst.getAccounts}`,
+      { headers, withCredentials: true });
 
   }
 

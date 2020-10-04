@@ -1,0 +1,30 @@
+<div class="alert alert-warning" style="text-align: center; " *ngIf="message">
+  <span> {{message}}</span>
+</div>
+
+<div class="container-fluid">
+
+  <div class="col-4 account-data" style="margin: auto;" *ngIf="showOutput">
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Account</th>
+          <th scope="col">Balance</th>
+          <!--
+        <th scope="col">Status</th>
+ -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let acc of accountArr" (click)="rowClick(acc)">
+          <th scope="row">{{acc.accountIban}}</th>
+          <td style="text-align: right">{{acc.balance | currency: 'EUR'}}</td>
+          <!--
+        <td>{{(trInfo.status == null)? "OK" : trInfo.status}}</td>
+ -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

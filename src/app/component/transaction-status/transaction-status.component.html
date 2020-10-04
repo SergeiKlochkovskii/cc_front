@@ -37,11 +37,11 @@
               (input)="hideStatus()">
           </div>
         </div>
+
         <div class="form-row" style="text-align: center">
           <button type="submit" class="btn btn-primary btn-lg btn-block"
             [disabled]="!transactionStatusForm.valid">Check</button>
         </div>
-
 
         <div class="form-group row" style="margin-top: 15px;" *ngIf="statusChanged">
           <div class="col-md-4">

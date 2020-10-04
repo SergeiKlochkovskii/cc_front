@@ -15,8 +15,11 @@
       <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <a class="nav-link" routerLink="/transactionStatus">Status</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Find by account</a>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" routerLink="/accountInfo">Account transaction</a>
+      </li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" routerLink="/accounts">Accounts</a>
       </li>
 
       <!-- <li class="nav-item dropdown">
@@ -30,9 +33,6 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> -->
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
     </ul>
   </div>
 </nav>

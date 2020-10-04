@@ -1,5 +1,4 @@
-import { LoadTransService} from './../../service/load-trans.service';
-
+import { TransactionStatusService } from '../../service/transaction.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TransactionPayload } from 'src/app/service/transaction-interface';
@@ -14,7 +13,7 @@ export class NewTransactionComponent implements OnInit {
   newTransactionForm: FormGroup;
   message = 'Enter data';
 
-  constructor(private loadTransaction: LoadTransService) { }
+  constructor(private transactionService: TransactionStatusService) { }
 
   ngOnInit(): void {
 
@@ -39,7 +38,7 @@ export class NewTransactionComponent implements OnInit {
       description: this.newTransactionForm.get('description').value
     };
 
-    this.loadTransaction.storeTransaction(tpl).subscribe(
+    this.transactionService.storeTransaction(tpl).subscribe(
       (data: TransactionPayload) => {
         if (data.status !== 'OK') {
           this.revertTransactionData(tpl);

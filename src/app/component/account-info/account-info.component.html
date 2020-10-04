@@ -1,0 +1,76 @@
+<div class="alert alert-warning" style="text-align: center; " *ngIf="message">
+  <span> {{message}}</span>
+</div>
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-3">
+    </div>
+    <div class="col-6 account-search-form" style="vertical-align: middle">
+      <form [formGroup]="accountStatusForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group" style="text-align: center">
+          <h3>Search by account</h3>
+          <hr>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-9">
+            <label for="iban">IBAN</label>
+            <input type="text"
+            [class]="(accountStatusForm.get('iban').valid) ? 'form-control is-valid' : 'form-control is-invalid'"
+              minlength="20" maxlength="25"
+            id="iban" formControlName="iban">
+          </div>
+          <div class="col-md-3">
+            <label for="order">Sort by amount</label>
+            <select id="order" name="lngs" class="form-control custom-select" formControlName="order" (input)="hideStatus()">
+              <option ></option>
+              <option >ASC</option>
+              <option >DESC</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="text-align: center">
+          <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!accountStatusForm.valid">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div style="height: 30px"></div>
+<div class="container-fluid">
+
+  <div class="col-8 " style="margin: auto;" *ngIf="showOutput">
+
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Reference</th>
+        <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Fee</th>
+        <th scope="col">Description</th>
+<!--
+        <th scope="col">Status</th>
+ -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let trInfo of accountInfoArray">
+        <th scope="row">{{trInfo.reference}}</th>
+        <td>{{trInfo.date}}</td>
+        <td>{{trInfo.amount}}</td>
+        <td>{{trInfo.fee}}</td>
+        <td>{{trInfo.description}}</td>
+<!--
+        <td>{{(trInfo.status == null)? "OK" : trInfo.status}}</td>
+ -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

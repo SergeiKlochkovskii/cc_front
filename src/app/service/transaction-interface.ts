@@ -12,7 +12,7 @@ export interface TransactionPayload {
 export interface TransactionStatusRequest {
   reference: string;
   channel: string;
-  date?: Date;
+  requestedDate?: Date;
 }
 
 export interface TransactionStatusResponse {
@@ -20,4 +20,9 @@ export interface TransactionStatusResponse {
   status: string;
   amount: number;
   fee?: number;
+}
+
+export interface AccountExt {
+  accountIban: string;
+  balance: number;
 }
