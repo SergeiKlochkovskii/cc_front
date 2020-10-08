@@ -1,6 +1,9 @@
+import { DataExchangeService } from './../../service/data-exchange.service';
+import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionStatusService } from './../../service/transaction.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TransactionPayload } from 'src/app/service/transaction-interface';
 
 
@@ -9,7 +12,7 @@ import { TransactionPayload } from 'src/app/service/transaction-interface';
   templateUrl: './account-info.component.html',
   styleUrls: ['./account-info.component.css']
 })
-export class AccountInfoComponent implements OnInit {
+export class AccountInfoComponent implements OnInit, OnDestroy {
 
   message = 'Enter data';
   statusChanged = false;
@@ -17,16 +20,35 @@ export class AccountInfoComponent implements OnInit {
   showOutput = false;
 
   accountStatusForm: FormGroup;
+  accountParamSubscription: Subscription = null;
 
+  constructor(private transactionService: TransactionStatusService, private route: ActivatedRoute,
+              private dataExchange: DataExchangeService) { }
 
-  constructor(private transactionService: TransactionStatusService) { }
+  ngOnDestroy(): void {
+    if (this.accountParamSubscription != null) {
+      this.accountParamSubscription.unsubscribe();
+    }
+  }
+
 
   ngOnInit(): void {
     this.accountStatusForm = new FormGroup({
       iban: new FormControl(null, [Validators.required]),
       order: new FormControl('')
     });
+
+    this.accountParamSubscription =
+      this.route.queryParams.subscribe(params => {
+        const account = params['selected'];
+        if (account != undefined) {
+          this.accountStatusForm.get('iban').setValue(account);
+          this.onSubmit();
+        }
+      }
+      );
   }
+
 
   onSubmit() {
     this.message = 'Enter data';
@@ -60,6 +82,12 @@ export class AccountInfoComponent implements OnInit {
   }
 
   onRowClick($event) {
+  }
+
+  onRefClick(reference: string) {
+
+    this.dataExchange.navigateToPage(reference, 'transactionStatus');
+
   }
 }
 

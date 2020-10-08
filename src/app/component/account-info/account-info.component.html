@@ -61,7 +61,10 @@
     </thead>
     <tbody>
       <tr *ngFor = "let trInfo of accountInfoArray">
-        <th scope="row">{{trInfo.reference}}</th>
+        <th scope="row">
+
+          <a  style="cursor: pointer;" (click)="onRefClick(trInfo.reference)">{{trInfo.reference}}</a>
+          </th>
         <td>{{trInfo.date}}</td>
         <td>{{trInfo.amount}}</td>
         <td>{{trInfo.fee}}</td>

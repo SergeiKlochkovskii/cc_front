@@ -1,7 +1,9 @@
+import { DataExchangeService } from '../../service/data-exchange.service';
 import { AccountExt } from './../../service/transaction-interface';
 import { Component, OnInit } from '@angular/core';
 import { TransactionStatusService } from 'src/app/service/transaction.service';
 import { Clipboard as cdkClipboard } from '@angular/cdk/clipboard';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accounts',
@@ -14,7 +16,8 @@ export class AccountsComponent implements OnInit {
   message = 'Account data';
   showOutput = false;
 
-  constructor(private transactionService: TransactionStatusService, private clb: cdkClipboard) { }
+  constructor(private transactionService: TransactionStatusService, private clb: cdkClipboard,
+              private dataExchange: DataExchangeService) { }
 
 
   ngOnInit(): void {
@@ -35,8 +38,10 @@ export class AccountsComponent implements OnInit {
       });
   }
 
-  rowClick(acc: AccountExt) {
-    this.clb.copy(acc.accountIban);
+
+  onAccountClick(account: string) {
+    this.clb.copy(account);
+    this.dataExchange.navigateToPage(account, 'accountInfo');
   }
 
 }

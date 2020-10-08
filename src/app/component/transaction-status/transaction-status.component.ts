@@ -1,21 +1,30 @@
+import { Subscription } from 'rxjs';
 import { TransactionStatusService } from '../../service/transaction.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransactionStatusRequest, TransactionStatusResponse } from 'src/app/service/transaction-interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-transaction-status',
   templateUrl: './transaction-status.component.html',
   styleUrls: ['./transaction-status.component.css']
 })
-export class TransactionStatusComponent implements OnInit {
+export class TransactionStatusComponent implements OnInit, OnDestroy {
 
   transactionStatusForm: FormGroup;
   message = 'Enter data';
   channels: string[] = ['CLIENT', 'ATM', 'INTERNAL'];
   statusChanged = false;
 
-  constructor(private transStatus: TransactionStatusService) { }
+  refParamSubscription: Subscription = null;
+  constructor(private route: ActivatedRoute, private transStatus: TransactionStatusService) { }
+
+  ngOnDestroy(): void {
+    if (this.refParamSubscription != null) {
+      this.refParamSubscription.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
 
@@ -30,6 +39,17 @@ export class TransactionStatusComponent implements OnInit {
       outFee: new FormControl('')
       // new FormControl(''),
     });
+
+    this.refParamSubscription =
+      this.route.queryParams.subscribe(params => {
+        const ref = params['selected'];
+        if (ref != undefined) {
+          this.transactionStatusForm.get('reference').setValue(ref);
+          this.onSubmit();
+        }
+      }
+      );
+
 
   }
 
